@@ -427,13 +427,6 @@ app.useGlobalInterceptors(new PerformanceInterceptor());
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Support
-
-- **Documentation**: [Wiki](https://github.com/Legacy-Protocol/celebconnect-backend/wiki)
-- **Issues**: [GitHub Issues](https://github.com/Legacy-Protocol/celebconnect-backend/issues)
-- **Discord**: [Community Server](https://discord.gg/celebconnect)
-- **Email**: backend@celebconnect.com
-
 ## 🗺️ Roadmap
 
 ### v1.0.0 (Current)
