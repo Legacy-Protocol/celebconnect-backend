@@ -1,197 +1,455 @@
-# CelebConnect GitHub Repository Setup
+# CelebConnect Backend API
 
-## Repository Structure
+[![CI/CD](https://github.com/Legacy-Protocol/celebconnect-backend/workflows/CI/badge.svg)](https://github.com/Legacy-Protocol/celebconnect-backend/actions)
+[![Coverage](https://codecov.io/gh/Legacy-Protocol/celebconnect-backend/branch/main/graph/badge.svg)](https://codecov.io/gh/Legacy-Protocol/celebconnect-backend)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-blue.svg)](https://www.typescriptlang.org/)
 
-### 📁 [Backend Repository](./backend/)
-**Legacy-Protocol/celebconnect-backend**
-- NestJS API with account abstraction
-- PostgreSQL database
-- Stellar blockchain integration
-- Real-time WebSocket support
-- Desktop-optimized API endpoints
+A scalable, enterprise-grade NestJS backend for the CelebConnect platform, featuring account abstraction, real-time features, and Stellar blockchain integration.
 
-### 📁 [Frontend Repository](./frontend/)
-**Legacy-Protocol/celebconnect-frontend**
-- React/Next.js desktop-first web application
-- Responsive design with mobile support
-- Real-time updates and notifications
-- Advanced UI/UX for desktop users
-- Progressive Web App capabilities
+## 🚀 Features
 
-### 📁 [Smart Contracts Repository](./smart-contracts/)
-**Legacy-Protocol/celebconnect-contracts**
-- Stellar Soroban smart contracts
-- Gift tracking and reward distribution
-- Celebrity token management
-- Testing and deployment scripts
-- Contract documentation
+### Core Features
+- **Account Abstraction**: Seamless Web3 onboarding with social login
+- **Stellar Integration**: Complete blockchain transaction management
+- **Real-time Communication**: WebSocket support for live updates
+- **Multi-tenant Architecture**: Scalable for millions of users
+- **Advanced Security**: Military-grade encryption and authentication
 
-## Desktop-First Approach
+### Desktop-First Optimizations
+- **Batch Processing**: Optimized for desktop bandwidth
+- **Real-time Updates**: Instant notifications and live leaderboards
+- **Advanced Analytics**: Desktop-optimized data processing
+- **Background Jobs**: Efficient async processing
+- **Caching Strategy**: Redis-based performance optimization
 
-### Design Philosophy
-- **Primary Target**: Desktop users (80% of initial user base)
-- **Secondary**: Mobile responsive design (20%)
-- **Focus**: Rich desktop experience with advanced features
-- **Performance**: Optimized for desktop browsers and internet speeds
+## 📋 Prerequisites
 
-### Key Desktop Features
-- **Multi-window Support**: Separate windows for gifts, rewards, chat
-- **Keyboard Shortcuts**: Power user navigation
-- **Drag & Drop**: Easy file uploads for content
-- **Desktop Notifications**: System-level notifications
-- **Large Screen Optimization**: Full use of desktop real estate
-- **Rich Media**: High-quality video and image galleries
+- **Node.js**: 18.x or higher
+- **PostgreSQL**: 14.x or higher
+- **Redis**: 7.x or higher
+- **Stellar CLI**: Latest version
+- **Docker**: Latest version (for containerization)
 
-## Repository Standards
+## 🛠️ Installation
 
-### 🏗️ Architecture Standards
-- Clean Architecture principles
-- Domain-driven design
-- Microservices-ready structure
-- Comprehensive error handling
-- Performance optimization
+### Local Development
 
-### 🔒 Security Standards
-- Zero-trust architecture
-- End-to-end encryption
-- Regular security audits
-- Dependency vulnerability scanning
-- Secure coding practices
+```bash
+# Clone the repository
+git clone https://github.com/Legacy-Protocol/celebconnect-backend.git
+cd celebconnect-backend
 
-### 📊 Quality Standards
-- 90%+ test coverage
-- TypeScript strict mode
-- ESLint + Prettier
-- Pre-commit hooks
-- Automated CI/CD
+# Install dependencies
+npm install
 
-### 📚 Documentation Standards
-- Comprehensive READMEs
-- API documentation
-- Code comments
-- Architecture diagrams
-- Deployment guides
+# Copy environment variables
+cp .env.example .env
 
-## Technology Stack
+# Start PostgreSQL and Redis
+docker-compose up -d postgres redis
 
-### Backend Technology
-- **Framework**: NestJS (TypeScript)
-- **Database**: PostgreSQL + Redis
-- **Blockchain**: Stellar SDK + Soroban
-- **Authentication**: JWT + OAuth 2.0
-- **Real-time**: WebSocket + Server-Sent Events
+# Run database migrations
+npm run migration:run
 
-### Frontend Technology
-- **Framework**: Next.js 14 (React 18)
-- **Styling**: Tailwind CSS + Framer Motion
-- **State Management**: Zustand + React Query
-- **Desktop Features**: Electron (optional)
-- **Testing**: Jest + Cypress
+# Seed the database
+npm run seed
 
-### Smart Contracts
-- **Platform**: Stellar Soroban (Rust)
-- **Testing**: Stellar Testnet
-- **Deployment**: Automated scripts
-- **Verification**: On-chain verification
+# Start development server
+npm run start:dev
+```
 
-## Development Workflow
+### Docker Development
 
-### 🔄 Git Workflow
-- **Main Branch**: Production-ready code
-- **Develop Branch**: Integration branch
-- **Feature Branches**: Individual features
-- **Pull Requests**: Code review required
-- **Semantic Versioning**: Automated releases
+```bash
+# Build and start all services
+docker-compose up --build
 
-### 🚀 Deployment Strategy
-- **Staging Environment**: Feature testing
-- **Production Environment**: Live deployment
-- **Blue-Green Deployment**: Zero downtime
-- **Rollback Capability**: Quick recovery
-- **Monitoring**: Real-time alerts
+# View logs
+docker-compose logs -f backend
 
-## Performance Targets
+# Stop services
+docker-compose down
+```
 
-### Desktop Performance
-- **First Load**: < 2 seconds
-- **Navigation**: < 500ms
-- **API Response**: < 200ms
-- **Blockchain**: < 5 seconds
-- **Memory Usage**: < 200MB
+## 🏗️ Architecture
 
-### Mobile Performance
-- **First Load**: < 3 seconds
-- **Navigation**: < 800ms
-- **API Response**: < 300ms
-- **Blockchain**: < 8 seconds
-- **Memory Usage**: < 100MB
+### Project Structure
+```
+src/
+├── auth/                    # Authentication & authorization
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── auth.module.ts
+│   ├── strategies/          # OAuth strategies
+│   └── dto/               # Auth DTOs
+├── users/                  # User management
+│   ├── user.entity.ts
+│   ├── users.controller.ts
+│   ├── users.service.ts
+│   └── users.module.ts
+├── wallets/               # Wallet & account abstraction
+│   ├── wallet.entity.ts
+│   ├── wallets.controller.ts
+│   ├── wallets.service.ts
+│   └── wallets.module.ts
+├── stellar/               # Stellar blockchain integration
+│   ├── stellar.service.ts
+│   ├── stellar.module.ts
+│   └── contracts/         # Smart contract interactions
+├── gifts/                 # Gift system
+│   ├── gift.entity.ts
+│   ├── gifts.controller.ts
+│   ├── gifts.service.ts
+│   └── gifts.module.ts
+├── celebrities/           # Celebrity management
+│   ├── celebrity.entity.ts
+│   ├── celebrities.controller.ts
+│   ├── celebrities.service.ts
+│   └── celebrities.module.ts
+├── rewards/              # Reward system
+│   ├── reward.entity.ts
+│   ├── rewards.controller.ts
+│   ├── rewards.service.ts
+│   └── rewards.module.ts
+├── notifications/        # Real-time notifications
+│   ├── notifications.gateway.ts
+│   ├── notifications.service.ts
+│   └── notifications.module.ts
+├── analytics/            # Analytics & metrics
+│   ├── analytics.service.ts
+│   ├── analytics.controller.ts
+│   └── analytics.module.ts
+├── common/              # Shared utilities
+│   ├── decorators/
+│   ├── guards/
+│   ├── interceptors/
+│   ├── pipes/
+│   └── filters/
+├── config/              # Configuration files
+│   ├── database.config.ts
+│   ├── stellar.config.ts
+│   └── redis.config.ts
+└── app.module.ts        # Root module
+```
 
-## Security & Compliance
+### Architecture Patterns
+- **Clean Architecture**: Separation of concerns
+- **Domain-Driven Design**: Business logic isolation
+- **CQRS**: Command Query Responsibility Segregation
+- **Event-Driven**: Async event processing
+- **Microservices**: Modular, scalable design
 
-### 🔐 Security Measures
-- Multi-factor authentication
-- End-to-end encryption
-- Regular security audits
-- Penetration testing
-- Vulnerability scanning
+## 🔧 Configuration
 
-### 📋 Compliance Requirements
-- GDPR compliance
-- KYC/AML procedures
-- Data privacy protection
-- Accessibility standards (WCAG 2.1)
-- Age verification systems
+### Environment Variables
 
-## Monitoring & Analytics
+```env
+# Application
+NODE_ENV=development
+PORT=8000
+API_PREFIX=api/v1
 
-### 📊 Performance Monitoring
-- Real-time performance metrics
-- Error tracking and reporting
-- User behavior analytics
-- A/B testing capabilities
-- Custom dashboards
+# Database
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=celebconnect
+DATABASE_PASSWORD=your_password
+DATABASE_NAME=celebconnect
 
-### 🔍 Business Intelligence
-- User engagement metrics
-- Revenue tracking
-- Conversion optimization
-- Retention analysis
-- Growth forecasting
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=your_redis_password
 
-## Team Collaboration
+# JWT
+JWT_SECRET=your-super-secret-jwt-key
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_SECRET=your-refresh-secret
+JWT_REFRESH_EXPIRES_IN=30d
 
-### 👥 Development Team
-- Frontend developers (React/TypeScript)
-- Backend developers (Node.js/NestJS)
-- Blockchain developers (Stellar/Rust)
-- UI/UX designers (Figma)
-- DevOps engineers (AWS/Docker)
+# Stellar
+STELLAR_NETWORK=public
+STELLAR_HORIZON_URL=https://horizon.stellar.org
+STELLAR_TREASURY_SECRET_KEY=your-treasury-secret-key
+PLATFORM_ENCRYPTION_SECRET=your-platform-encryption-secret
 
-### 🛠️ Tools & Platforms
-- **Version Control**: GitHub
-- **Project Management**: Linear/Jira
-- **Design**: Figma
-- **Communication**: Slack/Discord
-- **Documentation**: Notion/Confluence
+# OAuth Providers
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+FACEBOOK_APP_ID=your-facebook-app-id
+FACEBOOK_APP_SECRET=your-facebook-app-secret
+TWITTER_CONSUMER_KEY=your-twitter-consumer-key
+TWITTER_CONSUMER_SECRET=your-twitter-consumer-secret
 
-## Getting Started
+# File Storage
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=celebconnect-uploads
 
-Each repository contains detailed setup instructions:
+# Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
 
-1. **Backend**: [Setup Guide](./backend/README.md)
-2. **Frontend**: [Setup Guide](./frontend/README.md)
-3. **Smart Contracts**: [Setup Guide](./smart-contracts/README.md)
+# Monitoring
+SENTRY_DSN=your-sentry-dsn
+LOG_LEVEL=info
+```
 
-## Contributing Guidelines
+## 📚 API Documentation
 
-Please read our [Contributing Guide](./CONTRIBUTING.md) before submitting pull requests.
+### Authentication Endpoints
 
-## License
+```typescript
+// Social Login
+POST /api/v1/auth/google
+POST /api/v1/auth/facebook
+POST /api/v1/auth/twitter
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+// Token Management
+POST /api/v1/auth/refresh
+DELETE /api/v1/auth/logout
+```
 
-## Contact
+### User Management
 
-- **Organization**: [Legacy-Protocol](https://github.com/Legacy-Protocol)
-- **Website**: [celebconnect.com](https://celebconnect.com)
-- **Email**: team@celebconnect.com
+```typescript
+// User Profile
+GET /api/v1/users/profile
+PUT /api/v1/users/profile
+DELETE /api/v1/users/account
+
+// User Preferences
+GET /api/v1/users/preferences
+PUT /api/v1/users/preferences
+```
+
+### Wallet Operations
+
+```typescript
+// Wallet Management
+GET /api/v1/wallets/balance
+GET /api/v1/wallets/transactions
+POST /api/v1/wallets/fund
+
+// Transaction Signing
+POST /api/v1/wallets/sign
+POST /api/v1/wallets/execute
+```
+
+### Gift System
+
+```typescript
+// Send Gifts
+POST /api/v1/gifts/send
+GET /api/v1/gifts/history
+GET /api/v1/gifts/analytics
+
+// Gift Categories
+GET /api/v1/gifts/categories
+GET /api/v1/gifts/popular
+```
+
+### Celebrity Management
+
+```typescript
+// Celebrity Profiles
+GET /api/v1/celebrities
+GET /api/v1/celebrities/:id
+POST /api/v1/celebrities/:id/follow
+
+// Celebrity Rewards
+GET /api/v1/celebrities/:id/rewards
+POST /api/v1/celebrities/:id/rewards/claim
+```
+
+## 🔄 Real-time Features
+
+### WebSocket Events
+
+```typescript
+// Client Events
+'join_celebrity_room'     // Join celebrity updates
+'leave_celebrity_room'     // Leave celebrity updates
+'send_gift'               // Send gift notification
+'claim_reward'             // Claim reward notification
+
+// Server Events
+'gift_received'           // New gift received
+'reward_unlocked'         // New reward available
+'leaderboard_updated'     // Leaderboard change
+'celebrity_online'       // Celebrity status update
+```
+
+### Server-Sent Events
+
+```typescript
+// Real-time Updates
+/api/v1/stream/gifts/:celebrityId     // Live gift feed
+/api/v1/stream/leaderboard/:celebrityId // Live leaderboard
+/api/v1/stream/notifications/:userId     // User notifications
+```
+
+## 🧪 Testing
+
+### Unit Tests
+```bash
+# Run all unit tests
+npm run test
+
+# Run with coverage
+npm run test:cov
+
+# Run specific test file
+npm run test -- auth/auth.service.spec.ts
+```
+
+### Integration Tests
+```bash
+# Run integration tests
+npm run test:e2e
+
+# Run with specific test
+npm run test:e2e -- gifts.e2e-spec.ts
+```
+
+### Test Database
+```bash
+# Setup test database
+npm run test:db:setup
+
+# Reset test database
+npm run test:db:reset
+```
+
+## 🚀 Deployment
+
+### Production Build
+```bash
+# Build for production
+npm run build
+
+# Start production server
+npm run start:prod
+```
+
+### Docker Deployment
+```bash
+# Build Docker image
+docker build -t celebconnect-backend .
+
+# Run with Docker
+docker run -p 8000:8000 celebconnect-backend
+```
+
+### Kubernetes Deployment
+```bash
+# Deploy to Kubernetes
+kubectl apply -f k8s/
+
+# Check deployment status
+kubectl get pods -l app=celebconnect-backend
+```
+
+## 📊 Monitoring & Logging
+
+### Application Monitoring
+- **Health Checks**: `/health`, `/ready`, `/live`
+- **Metrics**: Prometheus metrics endpoint
+- **Tracing**: Jaeger distributed tracing
+- **Error Tracking**: Sentry integration
+
+### Logging
+```typescript
+// Structured logging
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger('UserService');
+logger.log('User created successfully', { userId: user.id });
+logger.error('Failed to create user', error.stack);
+```
+
+## 🔒 Security
+
+### Security Features
+- **JWT Authentication**: Secure token-based auth
+- **Rate Limiting**: API abuse prevention
+- **Input Validation**: Comprehensive DTO validation
+- **SQL Injection Protection**: TypeORM parameterized queries
+- **XSS Protection**: Input sanitization
+- **CORS Configuration**: Proper cross-origin setup
+
+### Security Headers
+```typescript
+// Security middleware
+app.use(helmet());
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS?.split(','),
+  credentials: true,
+}));
+```
+
+## 📈 Performance
+
+### Optimization Strategies
+- **Database Indexing**: Optimized query performance
+- **Redis Caching**: Frequent data caching
+- **Connection Pooling**: Database connection management
+- **Batch Processing**: Stellar transaction batching
+- **Compression**: Gzip response compression
+
+### Performance Monitoring
+```typescript
+// Performance metrics
+import { PerformanceInterceptor } from './common/interceptors/performance.interceptor';
+
+app.useGlobalInterceptors(new PerformanceInterceptor());
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+- Follow the [Code Style Guide](./docs/CODE_STYLE.md)
+- Write comprehensive tests
+- Update documentation
+- Ensure CI/CD passes
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+- **Documentation**: [Wiki](https://github.com/Legacy-Protocol/celebconnect-backend/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Legacy-Protocol/celebconnect-backend/issues)
+- **Discord**: [Community Server](https://discord.gg/celebconnect)
+- **Email**: backend@celebconnect.com
+
+## 🗺️ Roadmap
+
+### v1.0.0 (Current)
+- [x] Basic authentication
+- [x] Stellar integration
+- [x] Gift system
+- [x] Real-time updates
+
+### v1.1.0 (Next)
+- [ ] Advanced analytics
+- [ ] Mobile optimization
+- [ ] Enhanced security
+- [ ] Performance improvements
+
+### v2.0.0 (Future)
+- [ ] Microservices architecture
+- [ ] AI-powered features
+- [ ] Advanced gamification
+- [ ] Enterprise features
